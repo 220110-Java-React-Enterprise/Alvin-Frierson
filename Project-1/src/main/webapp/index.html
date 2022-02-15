@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>RESTaurant</title>
+        <link rel="stylesheet" href="styles.css">
+        <script>
+            function viewFood()
+            {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function()
+                {
+                    if (xhttp.readyState == 4 && xhttp.status > 199 && xhttp.status < 300)
+                    {
+                        food = JSON.parse(this.responseText);
+                        console.log(food);
+
+                        let div = document.querySelector("#menu");
+
+                        for(let i = 0; i < food.length; i++)
+                        {
+                                let newDiv = document.createElement('div');
+                                newDiv.className = "food_item";
+
+                                newDiv.innerHTML += "<img src=\"" + food[i].url + "\"></img>";
+                                newDiv.innerHTML += "<div class=\"names\">" + food[i].name + "</div>";
+                                newDiv.innerHTML += "<div class=\"prices\">$" + food[i].price + "</div>";
+                                newDiv.innerHTML += "<div class=\"descriptions\">" + food[i].description + "</div>";
+
+                                div.appendChild(newDiv);
+                        }
+                    }
+                };
+                xhttp.open("GET", "http://localhost:8080/Project-1/food", true);
+                xhttp.send();
+            }
+        </script>
+    </head>
+
+    <body onload="viewFood()">
+        <div id="menu"></div>
+    </body>
+</html>
